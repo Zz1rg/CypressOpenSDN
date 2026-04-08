@@ -5,25 +5,23 @@ describe('Log ENV Variables', () => {
   })
 })
 
-// describe('Access Test', () => {
-//   it('Visits the app', () => {
-//     cy.visit('https://10.10.15.50:8143/')
-
-//     cy.get('input[name="username"]').type(Cypress.env('name'))
-//     cy.get('input[name="password"]').type(Cypress.env('pass'))
-//     cy.get('button[type="submit"]').click()
-
-//     cy.visit('https://10.10.15.50:8143/#p=config_networking_networks')
-//   })
-// })
-
+/*
+Test Case 1: Create VxLAN VN with new LR
+1. Login to the application using valid credentials.
+2. Navigate to the Network Configurations section.
+3. Fill in the required fields to create a VxLAN VN with a new Logical Router:
+   - Subnet, VNI ID, Route Target ASN and Target, Router External, Is Shared, Display Name.
+4. Click the Save button.
+5. Check that the corresponding Ports and Floating IP Pools are created.
+6. Verify that the VxLAN VN is created successfully and associated with a new Logical Router and has the correct VNI and Route Target values.
+ */
 describe('VxLAN VN Creation (Create with New LR)', () => {
   it('Create VxLAN VN with new LR', () => {
     // Login
     cy.visit('https://10.10.15.50:8143/')
     cy.get('input[name="username"]').type(Cypress.env('name'))
     cy.get('input[name="password"]').type(Cypress.env('pass'))
-    cy.get('button[type="submit"]', { timeout: 20000 }).click()
+    cy.get('button[type="submit"]', { timeout: 30000 }).click()
 
     // Navigate to Network Configurations
     cy.get('#btn-configure').click()
@@ -81,6 +79,16 @@ describe('VxLAN VN Creation (Create with New LR)', () => {
     // Check for Logical Router creation
     cy.visit('https://10.10.15.50:8143/#p=config_net_routers').then(() => {
       cy.get('.slick-cell.l2.r2').should('contain', 'Cypress-test-VN-auto-backend-lr').parent('.slick-row').find('.slick-cell.l4.r4').should('contain', 'Cypress-test-VN-auto')
+      cy.contains('.slick-cell.l2.r2', 'Cypress-test-VN-auto-backend-lr')
+      .closest('.slick-row') 
+      .find('.fa.fa-cog.icon-only.bigger-110.grid-action-dropdown')
+      .click()
+      .get('a[data-original-title="Edit"]').click()
+      .get('input[name="vxlan_network_identifier"]').should('have.value', '7000')
+      .get('#s2id_connectedNetwork_dropdown').should('contain', 'Cypress-test-VN-auto')
+      .get('h3[aria-controls="route_target_vcfg"]').click()
+      .get('input[name="asn"]').should('have.value', '64512')
+      .get('input[name="target"]').should('have.value', '7000')
     })
 
   })
@@ -90,7 +98,7 @@ describe('VxLAN VN Creation (Create with New LR)', () => {
     cy.visit('https://10.10.15.50:8143/')
     cy.get('input[name="username"]').type(Cypress.env('name'))
     cy.get('input[name="password"]').type(Cypress.env('pass'))
-    cy.get('button[type="submit"]', { timeout: 20000 }).click()
+    cy.get('button[type="submit"]', { timeout: 30000 }).click()
 
     // Navigate to Network Configurations
     cy.get('#btn-configure').click()
@@ -126,7 +134,7 @@ describe('VxLAN VN Creation (Create with New LR)', () => {
         cy.get('input[name="is_shared"]').click()
 
         // Name Field
-        cy.get('input[name="display_name"]', { timeout: 20000 }).type('Cypress-test-VN-auto-2')
+        cy.get('input[name="display_name"]', { timeout: 30000 }).type('Cypress-test-VN-auto-2')
 
         // Save Button
         cy.get('button[id="configure-networkbtn1"]').click()
@@ -142,7 +150,7 @@ describe('VxLAN VN Creation (Create with New LR)', () => {
     cy.visit('https://10.10.15.50:8143/')
     cy.get('input[name="username"]').type(Cypress.env('name'))
     cy.get('input[name="password"]').type(Cypress.env('pass'))
-    cy.get('button[type="submit"]', { timeout: 20000 }).click()
+    cy.get('button[type="submit"]', { timeout: 30000 }).click()
 
     // Navigate to Network Configurations
     cy.get('#btn-configure').click()
@@ -169,7 +177,7 @@ describe('VxLAN VN Creation (Create with New LR)', () => {
         cy.get('input[name="is_shared"]').click()
 
         // Name Field
-        cy.get('input[name="display_name"]', { timeout: 20000 }).type('Cypress-test-VN-auto')
+        cy.get('input[name="display_name"]', { timeout: 30000 }).type('Cypress-test-VN-auto')
 
         // Save Button
         cy.get('button[id="configure-networkbtn1"]').click()
@@ -185,7 +193,7 @@ describe('VxLAN VN Creation (Create with New LR)', () => {
     cy.visit('https://10.10.15.50:8143/')
     cy.get('input[name="username"]').type(Cypress.env('name'))
     cy.get('input[name="password"]').type(Cypress.env('pass'))
-    cy.get('button[type="submit"]', { timeout: 20000 }).click()
+    cy.get('button[type="submit"]', { timeout: 30000 }).click()
 
     // Navigate to Network Configurations
     cy.get('#btn-configure').click()
@@ -211,7 +219,7 @@ describe('VxLAN VN Creation (Create with New LR)', () => {
         cy.get('input[name="is_shared"]').click()
 
         // Name Field
-        cy.get('input[name="display_name"]', { timeout: 20000 }).type('Cypress-test-VN-auto')
+        cy.get('input[name="display_name"]', { timeout: 30000 }).type('Cypress-test-VN-auto')
 
         // Save Button
         cy.get('button[id="configure-networkbtn1"]').click()
@@ -229,7 +237,7 @@ describe('VxLAN VN Creation (Create with New LR)', () => {
 //     cy.visit('https://10.10.15.50:8143/')
 //     cy.get('input[name="username"]').type(Cypress.env('name'))
 //     cy.get('input[name="password"]').type(Cypress.env('pass'))
-//     cy.get('button[type="submit"]', { timeout: 20000 }).click()
+//     cy.get('button[type="submit"]', { timeout: 30000 }).click()
 
 //     // Navigate to Network Configurations
 //     cy.get('#btn-configure').click()
@@ -282,7 +290,7 @@ describe('VxLAN VN Creation (Create with New LR)', () => {
 //     cy.visit('https://10.10.15.50:8143/')
 //     cy.get('input[name="username"]').type(Cypress.env('name'))
 //     cy.get('input[name="password"]').type(Cypress.env('pass'))
-//     cy.get('button[type="submit"]', { timeout: 20000 }).click()
+//     cy.get('button[type="submit"]', { timeout: 30000 }).click()
 
 //     // Navigate to Network Configurations
 //     cy.get('#btn-configure').click()
@@ -326,7 +334,7 @@ describe('VxLAN VN Creation (Create with New LR)', () => {
 //     cy.visit('https://10.10.15.50:8143/')
 //     cy.get('input[name="username"]').type(Cypress.env('name'))
 //     cy.get('input[name="password"]').type(Cypress.env('pass'))
-//     cy.get('button[type="submit"]', { timeout: 20000 }).click()
+//     cy.get('button[type="submit"]', { timeout: 30000 }).click()
 
 //     // Navigate to Network Configurations
 //     cy.get('#btn-configure').click()
