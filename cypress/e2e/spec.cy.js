@@ -41,10 +41,7 @@ describe('VxLAN VN Creation (Create with New LR)', () => {
         cy.get('h3[aria-controls="vxlanProps"]').click()
         cy.get('input[value="create-with-new-lr"]').click()
         cy.get('input[name="user_created_vni_id"]').type('7000')
-
-        // Route Targets Fields
-        cy.get('h3[aria-controls="route_target_vcfg"]').click()
-        cy.get('#user_created_route_targets').within(() => {
+        cy.get('#user_created_lr_route_targets').within(() => {
           cy.get('.fa.fa-plus').click().then(() => {
             cy.get('input[name="asn"]').type('64512')
             cy.get('input[name="target"]').type('7000')
@@ -118,10 +115,7 @@ describe('VxLAN VN Creation (Create with New LR)', () => {
         cy.get('h3[aria-controls="vxlanProps"]').click()
         cy.get('input[value="create-with-new-lr"]').click()
         cy.get('input[name="user_created_vni_id"]').type('7000')
-
-        // Route Targets Fields
-        cy.get('h3[aria-controls="route_target_vcfg"]').click()
-        cy.get('#user_created_route_targets').within(() => {
+        cy.get('#user_created_lr_route_targets').within(() => {
           cy.get('.fa.fa-plus').click().then(() => {
             cy.get('input[name="asn"]').type('64512')
             cy.get('input[name="target"]').type('7000')
@@ -183,7 +177,7 @@ describe('VxLAN VN Creation (Create with New LR)', () => {
         cy.get('button[id="configure-networkbtn1"]').click()
         
         // Expect Alert for missing Route Target
-        cy.get('.alert.alert-error').should('contain', 'Route Targets and Subnet are required when VXLAN mode is selected')
+        cy.get('.alert.alert-error').should('contain', 'LR\'s Route Targets and Subnet are required when VXLAN mode is selected')
       })
     })
   })
@@ -203,10 +197,7 @@ describe('VxLAN VN Creation (Create with New LR)', () => {
         cy.get('h3[aria-controls="vxlanProps"]').click()
         cy.get('input[value="create-with-new-lr"]').click()
         cy.get('input[name="user_created_vni_id"]').type('7000')
-
-        // Route Targets Fields
-        cy.get('h3[aria-controls="route_target_vcfg"]').click()
-        cy.get('#user_created_route_targets').within(() => {
+        cy.get('#user_created_lr_route_targets').within(() => {
           cy.get('.fa.fa-plus').click().then(() => {
             cy.get('input[name="asn"]').type('64512')
             cy.get('input[name="target"]').type('7000')
@@ -225,7 +216,7 @@ describe('VxLAN VN Creation (Create with New LR)', () => {
         cy.get('button[id="configure-networkbtn1"]').click()
         
         // Expect Alert for missing Route Target
-        cy.get('.alert.alert-error').should('contain', 'Route Targets and Subnet are required when VXLAN mode is selected')
+        cy.get('.alert.alert-error').should('contain', 'LR\'s Route Targets and Subnet are required when VXLAN mode is selected')
       })
     })
   })
