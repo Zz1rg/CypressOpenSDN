@@ -231,6 +231,16 @@ describe('VxLAN VN Creation (Create with New LR)', () => {
   })
 })
 
+/*
+Test Case 2: Create VxLAN VN with existing LR
+1. Login to the application using valid credentials.
+2. Navigate to the Network Configurations section.
+3. Fill in the required fields to create a VxLAN VN by appending to an existing Logical Router:
+   - Subnet, Select existing LR with VNI, Route Target ASN and Target, Router External, Is Shared, Display Name.
+4. Click the Save button.
+5. Check that the corresponding Ports and Floating IP Pools are created.
+6. Verify that the VxLAN VN is created successfully and associated with the selected Logical Router and has the correct VNI and Route Target values.
+ */
 // describe('VxLAN VN Creation (Append to Existing LR)', () => {
 //   it('Create VxLAN VN with existing LR', () => {
 //     // Login
