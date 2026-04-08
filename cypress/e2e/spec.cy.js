@@ -236,63 +236,54 @@ Test Case 2: Create VxLAN VN with existing LR
 1. Login to the application using valid credentials.
 2. Navigate to the Network Configurations section.
 3. Fill in the required fields to create a VxLAN VN by appending to an existing Logical Router:
-   - Subnet, Select existing LR with VNI, Route Target ASN and Target, Router External, Is Shared, Display Name.
+   - Subnet, Select existing LR with VNI, Router External, Is Shared, Display Name.
 4. Click the Save button.
 5. Check that the corresponding Ports and Floating IP Pools are created.
 6. Verify that the VxLAN VN is created successfully and associated with the selected Logical Router and has the correct VNI and Route Target values.
  */
-// describe('VxLAN VN Creation (Append to Existing LR)', () => {
-//   it('Create VxLAN VN with existing LR', () => {
-//     // Login
-//     cy.visit('https://10.10.15.50:8143/')
-//     cy.get('input[name="username"]').type(Cypress.env('name'))
-//     cy.get('input[name="password"]').type(Cypress.env('pass'))
-//     cy.get('button[type="submit"]', { timeout: 30000 }).click()
+describe('VxLAN VN Creation (Append to Existing LR)', () => {
+  it('Create VxLAN VN with existing LR', () => {
+    // Login
+    cy.visit('https://10.10.15.50:8143/')
+    cy.get('input[name="username"]').type(Cypress.env('name'))
+    cy.get('input[name="password"]').type(Cypress.env('pass'))
+    cy.get('button[type="submit"]', { timeout: 30000 }).click()
 
-//     // Navigate to Network Configurations
-//     cy.get('#btn-configure').click()
-//     cy.visit('https://10.10.15.50:8143/#p=config_networking_networks').then(() => {
-//       cy.get('.fa.fa-plus').click().then(() => {
-//         // Subnet Fields
-//         cy.get('h3[aria-controls="subnet_vcfg"]').click()
-//         cy.get('#network_ipam_refs').within(() => {
-//           cy.get('.fa.fa-plus').click()
-//         }).then(() => {
-//           cy.get('input[name="user_created_cidr"]').type('100.64.127.0/24')
-//           cy.get('#s2id_user_created_ipam_fqn_dropdown').click()
-//           cy.get('.select2-result-label').click()
-//         })
+    // Navigate to Network Configurations
+    cy.get('#btn-configure').click()
+    cy.visit('https://10.10.15.50:8143/#p=config_networking_networks').then(() => {
+      cy.get('.fa.fa-plus').click().then(() => {
+        // Subnet Fields
+        cy.get('h3[aria-controls="subnet_vcfg"]').click()
+        cy.get('#network_ipam_refs').within(() => {
+          cy.get('.fa.fa-plus').click()
+        }).then(() => {
+          cy.get('input[name="user_created_cidr"]').type('100.64.127.0/24')
+          cy.get('#s2id_user_created_ipam_fqn_dropdown').click()
+          cy.get('.select2-result-label').click()
+        })
 
-//         // Vxlan Fields
-//         cy.get('h3[aria-controls="vxlanProps"]').click()
-//         cy.get('input[value="append-to-existing-lr"]').click()
-//         cy.get('#s2id_logical_routers_with_vni_dropdown').click()
+        // Vxlan Fields
+        cy.get('h3[aria-controls="vxlanProps"]').click()
+        cy.get('input[value="append-to-existing-lr"]').click()
+        cy.get('#s2id_logical_routers_with_vni_dropdown').click()
 
-//         // Route Targets Fields
-//         cy.get('h3[aria-controls="route_target_vcfg"]').click()
-//         cy.get('#user_created_route_targets').within(() => {
-//           cy.get('.fa.fa-plus').click().then(() => {
-//             cy.get('input[name="asn"]').type('64512')
-//             cy.get('input[name="target"]').type('7000')
-//           })
-//         })
+        // Advance Fields
+        cy.get('h3[aria-controls="advanced"]').click()
+        cy.get('input[name="router_external"]').click()
+        cy.get('input[name="is_shared"]').click()
 
-//         // Advance Fields
-//         cy.get('h3[aria-controls="advanced"]').click()
-//         cy.get('input[name="router_external"]').click()
-//         cy.get('input[name="is_shared"]').click()
+        // Name Field
+        cy.get('input[name="display_name"]', { timeout: 30000 }).type('Cypress-test-VN-auto')
 
-//         // Name Field
-//         cy.get('input[name="display_name"]', { timeout: 10000 }).type('Cypress-test-VN-auto')
-
-//         // Save Button
-//         // cy.get('button[id="configure-networkbtn1"]').click()
-//         // Cancel Button For dev to not overwhelm the system with test data
-//         cy.get('button[id="cancelBtn"]').click()
-//       })
-//     })
-//   })
-// })
+        // Save Button
+        // cy.get('button[id="configure-networkbtn1"]').click()
+        // Cancel Button For dev to not overwhelm the system with test data
+        cy.get('button[id="cancelBtn"]').click()
+      })
+    })
+  })
+})
 
 // describe('Basic VN Creation', () => {
 //   it('Create Basic VN', () => {
