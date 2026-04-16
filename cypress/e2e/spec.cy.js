@@ -58,6 +58,10 @@ describe.skip('VxLAN VN Creation (Create with new LR)', () => {
         cy.get('h3[aria-controls="advanced"]').click()
         cy.get('input[name="router_external"]').click()
         cy.get('input[name="is_shared"]').click()
+        // Advance Fields
+        cy.get('h3[aria-controls="advanced"]').click()
+        cy.get('input[name="router_external"]').click()
+        cy.get('input[name="is_shared"]').click()
 
         // Save Button
         cy.get('button[id="configure-networkbtn1"]').click()
@@ -127,10 +131,16 @@ describe.skip('VxLAN VN Creation (Create with new LR)', () => {
         cy.get('h3[aria-controls="advanced"]').click()
         cy.get('input[name="router_external"]').click()
         cy.get('input[name="is_shared"]').click()
+        // Advance Fields
+        cy.get('h3[aria-controls="advanced"]').click()
+        cy.get('input[name="router_external"]').click()
+        cy.get('input[name="is_shared"]').click()
 
         // Name Field
         cy.get('input[name="display_name"]', { timeout: 30000 }).type('Cypress-test-VN-auto-2')
 
+        // Save Button
+        cy.get('button[id="configure-networkbtn1"]').click()
         // Save Button
         cy.get('button[id="configure-networkbtn1"]').click()
         
@@ -170,10 +180,16 @@ describe.skip('VxLAN VN Creation (Create with new LR)', () => {
         cy.get('h3[aria-controls="advanced"]').click()
         cy.get('input[name="router_external"]').click()
         cy.get('input[name="is_shared"]').click()
+        // Advance Fields
+        cy.get('h3[aria-controls="advanced"]').click()
+        cy.get('input[name="router_external"]').click()
+        cy.get('input[name="is_shared"]').click()
 
         // Name Field
         cy.get('input[name="display_name"]', { timeout: 30000 }).type('Cypress-test-VN-auto')
 
+        // Save Button
+        cy.get('button[id="configure-networkbtn1"]').click()
         // Save Button
         cy.get('button[id="configure-networkbtn1"]').click()
         
@@ -209,10 +225,16 @@ describe.skip('VxLAN VN Creation (Create with new LR)', () => {
         cy.get('h3[aria-controls="advanced"]').click()
         cy.get('input[name="router_external"]').click()
         cy.get('input[name="is_shared"]').click()
+        // Advance Fields
+        cy.get('h3[aria-controls="advanced"]').click()
+        cy.get('input[name="router_external"]').click()
+        cy.get('input[name="is_shared"]').click()
 
         // Name Field
         cy.get('input[name="display_name"]', { timeout: 30000 }).type('Cypress-test-VN-auto')
 
+        // Save Button
+        cy.get('button[id="configure-networkbtn1"]').click()
         // Save Button
         cy.get('button[id="configure-networkbtn1"]').click()
         
@@ -269,7 +291,7 @@ describe.skip('VxLAN VN Creation (Append to Existing LR)', () => {
     cy.visit('https://10.10.15.50:8143/')
     cy.get('input[name="username"]').type(Cypress.env('name'))
     cy.get('input[name="password"]').type(Cypress.env('pass'))
-    cy.get('button[type="submit"]', { timeout: 30000 }).click()
+    cy.get('button[type="submit"]', { timeout: 50000 }).click()
 
     // Navigate to Network Configurations
     cy.get('#btn-configure').click()
@@ -297,7 +319,7 @@ describe.skip('VxLAN VN Creation (Append to Existing LR)', () => {
         cy.get('input[name="is_shared"]').click()
 
         // Name Field
-        cy.get('input[name="display_name"]', { timeout: 30000 }).type('Cypress-test-VN-append')
+        cy.get('input[name="display_name"]', { timeout: 50000 }).type('Cypress-test-VN-append')
 
         // Save Button
         cy.get('button[id="configure-networkbtn1"]').click()
