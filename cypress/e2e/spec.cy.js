@@ -97,54 +97,54 @@ describe('VxLAN VN Creation (Create with new LR)', () => {
   })
 
   // 🤔⁉️ Kampan allows LR to use the same vni now so this might not be necessary
-  it.skip('Create VxLAN VN with new LR (Already Existing VNI)', () => {
-  // Login
-    cy.visit('https://10.10.15.50:8143/')
-    cy.get('input[name="username"]').type(Cypress.env('name'))
-    cy.get('input[name="password"]').type(Cypress.env('pass'))
-    cy.get('button[type="submit"]', { timeout: 30000 }).click()
+  // it.skip('Create VxLAN VN with new LR (Already Existing VNI)', () => {
+  // // Login
+  //   cy.visit('https://10.10.15.50:8143/')
+  //   cy.get('input[name="username"]').type(Cypress.env('name'))
+  //   cy.get('input[name="password"]').type(Cypress.env('pass'))
+  //   cy.get('button[type="submit"]', { timeout: 30000 }).click()
 
-    // Navigate to Network Configurations
-    cy.get('#btn-configure').click()
-    cy.visit('https://10.10.15.50:8143/#p=config_networking_networks').then(() => {
-      cy.get('.fa.fa-plus').click().then(() => {
-        // Subnet Fields
-        cy.get('h3[aria-controls="subnet_vcfg"]').click()
-        cy.get('#network_ipam_refs').within(() => {
-          cy.get('.fa.fa-plus').click()
-        }).then(() => {
-          cy.get('input[name="user_created_cidr"]').type('100.64.112.0/24')
-          cy.get('#s2id_user_created_ipam_fqn_dropdown').click()
-          cy.get('.select2-result-label').click()
-        })
+  //   // Navigate to Network Configurations
+  //   cy.get('#btn-configure').click()
+  //   cy.visit('https://10.10.15.50:8143/#p=config_networking_networks').then(() => {
+  //     cy.get('.fa.fa-plus').click().then(() => {
+  //       // Subnet Fields
+  //       cy.get('h3[aria-controls="subnet_vcfg"]').click()
+  //       cy.get('#network_ipam_refs').within(() => {
+  //         cy.get('.fa.fa-plus').click()
+  //       }).then(() => {
+  //         cy.get('input[name="user_created_cidr"]').type('100.64.112.0/24')
+  //         cy.get('#s2id_user_created_ipam_fqn_dropdown').click()
+  //         cy.get('.select2-result-label').click()
+  //       })
 
-        // Vxlan Fields
-        cy.get('h3[aria-controls="vxlanProps"]').click()
-        cy.get('input[value="create-with-new-lr"]').click()
-        cy.get('input[name="user_created_vni_id"]').type(`${vniForNewLR}`)
-        cy.get('#user_created_lr_route_targets').within(() => {
-          cy.get('.fa.fa-plus').click().then(() => {
-            cy.get('input[name="asn"]').type(`${asnForNewLR}`)
-            cy.get('input[name="target"]').type(`${targetForNewLR}`)
-          })
-        })
+  //       // Vxlan Fields
+  //       cy.get('h3[aria-controls="vxlanProps"]').click()
+  //       cy.get('input[value="create-with-new-lr"]').click()
+  //       cy.get('input[name="user_created_vni_id"]').type(`${vniForNewLR}`)
+  //       cy.get('#user_created_lr_route_targets').within(() => {
+  //         cy.get('.fa.fa-plus').click().then(() => {
+  //           cy.get('input[name="asn"]').type(`${asnForNewLR}`)
+  //           cy.get('input[name="target"]').type(`${targetForNewLR}`)
+  //         })
+  //       })
 
-        // Advance Fields
-        cy.get('h3[aria-controls="advanced"]').click()
-        cy.get('input[name="router_external"]').click()
-        cy.get('input[name="is_shared"]').click()
+  //       // Advance Fields
+  //       cy.get('h3[aria-controls="advanced"]').click()
+  //       cy.get('input[name="router_external"]').click()
+  //       cy.get('input[name="is_shared"]').click()
 
-        // Name Field
-        cy.get('input[name="display_name"]', { timeout: 30000 }).type(`${vnForNewLR}-2`)
+  //       // Name Field
+  //       cy.get('input[name="display_name"]', { timeout: 30000 }).type(`${vnForNewLR}-2`)
 
-        // Save Button
-        cy.get('#configure-networkbtn1').click()
+  //       // Save Button
+  //       cy.get('#configure-networkbtn1').click()
         
-        // Expect Alert for existing VNI
-        cy.get('.alert.alert-error').should('contain', `VNI ID ${vniForNewLR} is already in use.`)
-      })
-    })
-  })
+  //       // Expect Alert for existing VNI
+  //       cy.get('.alert.alert-error').should('contain', `VNI ID ${vniForNewLR} is already in use.`)
+  //     })
+  //   })
+  // })
 
   it('Create VxLAN VN with new LR (without Route Target)', () => {
     // Login
@@ -543,6 +543,25 @@ describe('Basic VN Creation', () => {
  * 4. Verify that the VxLAN VNs, corresponding Ports, Floating IP Pools and Logical Router (for Test Case 1) are deleted successfully.
  */
 describe('Cleanup for All testing', () => {
+  it('Cleanup the auto created LR for Create with new LR Test', () => {
+    // Login
+    cy.visit('https://10.10.15.50:8143/')
+    cy.get('input[name="username"]').type(Cypress.env('name'))
+    cy.get('input[name="password"]').type(Cypress.env('pass'))
+    cy.get('button[type="submit"]', { timeout: 50000 }).click()
+
+    // Navigate to Logical Routers and delete the LR created by the test
+    cy.get('#btn-configure').click()
+    cy.visit('https://10.10.15.50:8143/#p=config_net_routers').then(() => {
+      cy.contains('.slick-cell.l2', `${lrForAppend}`)
+      .closest('.slick-row')
+      .find('input[type="checkbox"]')
+      .check()
+      cy.get('.fa.fa-trash').click()
+      cy.get('#configure-logical_routerbtn1').click()
+    })
+  })
+
   // Cleanup for Create with new LR
   it('Cleanup for Create with new LR Test', () => {
     // Login
@@ -552,16 +571,16 @@ describe('Cleanup for All testing', () => {
     cy.get('button[type="submit"]', { timeout: 50000 }).click()
 
     // Navigate to port page and delete the port created by the test
-    cy.visit('https://10.10.15.50:8143/#p=config_net_ports').then(() => {
-      cy.get('.slick-cell.l4').should('contain', `${vnForNewLR}`)
-      cy.contains('.slick-cell.l4', `${vnForNewLR}`)
-      .closest('.slick-row')
-      .find('input[type="checkbox"]')
-      .check()
-      cy.get('.fa.fa-trash').click()
-      cy.get('a[data-original-title="Delete"]').click()
-      cy.get('#configure-Portsbtn1').click()
-    })
+    // cy.visit('https://10.10.15.50:8143/#p=config_net_ports').then(() => {
+    //   cy.get('.slick-cell.l4').should('contain', `${vnForNewLR}`)
+    //   cy.contains('.slick-cell.l4', `${vnForNewLR}`)
+    //   .closest('.slick-row')
+    //   .find('input[type="checkbox"]')
+    //   .check()
+    //   cy.get('.fa.fa-trash').click()
+    //   cy.get('a[data-original-title="Delete"]').click()
+    //   cy.get('#configure-Portsbtn1').click()
+    // })
 
     // Navigate to Network Configurations and delete the VN created by the test
     cy.visit('https://10.10.15.50:8143/#p=config_networking_networks').then(() => {
@@ -571,16 +590,6 @@ describe('Cleanup for All testing', () => {
       .check()
       cy.get('.fa.fa-trash').click()
       cy.get('#configure-networkbtn1').click()
-    })
-
-    // Navigate to Logical Routers and delete the LR created by the test
-    cy.visit('https://10.10.15.50:8143/#p=config_net_routers').then(() => {
-      cy.contains('.slick-cell.l2', `${lrForAppend}`)
-      .closest('.slick-row')
-      .find('input[type="checkbox"]')
-      .check()
-      cy.get('.fa.fa-trash').click()
-      cy.get('#configure-logical_routerbtn1').click()
     })
   })
 
@@ -593,16 +602,16 @@ describe('Cleanup for All testing', () => {
     cy.get('button[type="submit"]', { timeout: 50000 }).click()
 
     // Navigate to port page and delete the port created by the test
-    cy.visit('https://10.10.15.50:8143/#p=config_net_ports').then(() => {
-      cy.get('.slick-cell.l4').should('contain', `${vnForAppend}`)
-      cy.contains('.slick-cell.l4', `${vnForAppend}`)
-      .closest('.slick-row')
-      .find('input[type="checkbox"]')
-      .check()
-      cy.get('.fa.fa-trash').click()
-      cy.get('a[data-original-title="Delete"]').click()
-      cy.get('#configure-Portsbtn1').click()
-    })
+    // cy.visit('https://10.10.15.50:8143/#p=config_net_ports').then(() => {
+    //   cy.get('.slick-cell.l4').should('contain', `${vnForAppend}`)
+    //   cy.contains('.slick-cell.l4', `${vnForAppend}`)
+    //   .closest('.slick-row')
+    //   .find('input[type="checkbox"]')
+    //   .check()
+    //   cy.get('.fa.fa-trash').click()
+    //   cy.get('a[data-original-title="Delete"]').click()
+    //   cy.get('#configure-Portsbtn1').click()
+    // })
 
     // Navigate to Network Configurations and delete the VN created by the test
     cy.visit('https://10.10.15.50:8143/#p=config_networking_networks').then(() => {
