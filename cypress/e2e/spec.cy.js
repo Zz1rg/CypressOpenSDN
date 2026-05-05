@@ -227,36 +227,6 @@ describe('VxLAN VN Creation (Create with new LR)', () => {
       })
     })
   })
-
-  // ❌❌❌❌❌❌❌❌❌❌ Paimee is working here
-  it.skip('Check external connectivity', () => {
-    cy.visit('http://10.10.15.50')
-    cy.get('[name="username"]').type(Cypress.env('name'))
-    cy.get('[name="password"]').type(Cypress.env('pass'))
-    cy.get('#loginBtn span', { timeout: 30000 }).click()
-
-    cy.get('#navbar-collapse ul:nth-child(1) span.fa-caret-down').click()
-    cy.get('#navbar-collapse li:nth-child(1) li:nth-child(3) a').click()
-    cy.get('#sidebar-accordion-project-compute a[href="/project/instances/"]').click()
-    cy.get('#instances tr.even td.anchor a').click()
-    cy.get('#instance_details a[href="?tab=instance_details__console"]').click()
-  })
-
-  // ❌❌❌❌❌❌❌❌❌❌ Paimee is working here
-  it.skip('Delete created VxLAN VN with new LR', () => {
-    // Login
-    cy.visit('https://10.10.15.50:8143/')
-    cy.get('input[name="username"]').type(Cypress.env('name'))
-    cy.get('input[name="password"]').type(Cypress.env('pass'))
-    cy.get('button[type="submit"]', { timeout: 30000 }).click()
-
-    // Delete automatically created Port
-    cy.visit('https://10.10.15.50:8143/#p=config_net_ports').then(() => {
-      cy.get('.slick-cell.l4.r4').should('contain', `${vnForNewLR}`)
-      cy.get('.slick-cell.l1.r4').click()
-      cy.get(':nth-child(5) > .dropdown-toggle > .fa').click()
-    })
-  })
 })
 
 /**
